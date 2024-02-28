@@ -17,11 +17,17 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "api" middleware group. Make something great!
 |
 */
+//test
+Route::get('/test', function () {
+    return "hi";
+});
 
-Route::post('/login', [AuthController::class, 'login'])->name('login');
-Route::post('/register', [AuthController::class, 'register'])->name('register');
+Route::prefix('v1')->group(function () {
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
+    Route::post('/register', [AuthController::class, 'register'])->name('register');
+});
 
-Route::middleware('auth:api')->group(function () {
+Route::middleware('auth:api')->prefix('v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
     Route::prefix('permissions')->name('permissions.')->group(function () {
@@ -41,7 +47,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/', [CustomerController::class, 'store'])->name('store');
             Route::put('/{customer}', [CustomerController::class, 'update'])->name('update');
             Route::delete('/{customer}', [CustomerController::class, 'destroy'])->name('destroy');
-            Route::delete('/{customer}/force', [CustomerController::class, 'forceDelete'])->name('forceDelete');
+            Route::delete('/{customer}/force', [CustomerController::class, 'forceDelete'])->name('forceDelete')->middleware('confirm_deletion');
         });
 
         // Manager routes
@@ -64,7 +70,7 @@ Route::middleware('auth:api')->group(function () {
             Route::post('/', [MedicationController::class, 'store'])->name('store');
             Route::put('/{medication}', [MedicationController::class, 'update'])->name('update');
             Route::delete('/{medication}', [MedicationController::class, 'destroy'])->name('destroy');
-            Route::delete('/{medication}/force', [MedicationController::class, 'forceDelete'])->name('forceDelete');
+            Route::delete('/{medication}/force', [MedicationController::class, 'forceDelete'])->name('forceDelete')->middleware('confirm_deletion');
         });
 
         // Manager routes
