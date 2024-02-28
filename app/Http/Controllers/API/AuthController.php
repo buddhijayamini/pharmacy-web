@@ -12,8 +12,21 @@ use Throwable;
 
 class AuthController extends Controller
 {
+    /**
+     * Display a listing of the resource.
+     */
+    public function index()
+    {
+        try {
+            $users = User::all();
+            return response()->json($users);
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Failed to fetch users'], 500);
+        }
+    }
+
     public function register(Request $request)
-    {dd($request);
+    {
         try {
             // Validate request data
             $validatedData = $request->validate([

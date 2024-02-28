@@ -29,6 +29,7 @@ Route::prefix('v1')->group(function () {
 
 Route::middleware('auth:api')->prefix('v1')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+    Route::get('/users', [AuthController::class, 'index'])->name('users');
 
     Route::prefix('permissions')->name('permissions.')->group(function () {
         Route::get('/', [PermissionController::class, 'index'])->name('index');
