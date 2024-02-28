@@ -159,6 +159,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Laravel\Passport\PassportServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -181,8 +182,8 @@ return [
     |
     */
 
-    'aliases' => Facade::defaultAliases()->merge([
+    'aliases' => [
         // 'Example' => App\Facades\Example::class,
-    ])->toArray(),
+    ],
 
 ];
