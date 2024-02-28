@@ -2,6 +2,7 @@
 
 namespace App\Http;
 
+use App\Http\Middleware\CheckRole;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -21,6 +22,10 @@ class Kernel extends HttpKernel
         \Illuminate\Foundation\Http\Middleware\ValidatePostSize::class,
         \App\Http\Middleware\TrimStrings::class,
         \Illuminate\Foundation\Http\Middleware\ConvertEmptyStringsToNull::class,
+        CheckRole::class,
+        \App\Http\Middleware\OwnerMiddleware::class,
+        \App\Http\Middleware\ManagerMiddleware::class,
+        \App\Http\Middleware\CashierMiddleware::class,
     ];
 
     /**
@@ -64,5 +69,10 @@ class Kernel extends HttpKernel
         'signed' => \App\Http\Middleware\ValidateSignature::class,
         'throttle' => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'verified' => \Illuminate\Auth\Middleware\EnsureEmailIsVerified::class,
+        'role' => \App\Http\Middleware\CheckRole::class,
+        'confirm_deletion' => \App\Http\Middleware\ConfirmCustomerDeletion::class,
+        'owner' => \App\Http\Middleware\OwnerMiddleware::class,
+        'manager' => \App\Http\Middleware\ManagerMiddleware::class,
+        'cashier' => \App\Http\Middleware\CashierMiddleware::class,
     ];
 }
